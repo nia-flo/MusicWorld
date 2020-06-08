@@ -15,6 +15,6 @@ namespace MusicWorld.Data.Models
 
         public virtual Album Album { get; set; }
 
-        public virtual Artist Atrist { get; set; }
+        public virtual Artist Artist { get; set; }
     }
 }

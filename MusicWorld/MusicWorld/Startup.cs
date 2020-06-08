@@ -28,13 +28,19 @@ namespace MusicWorld
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Data.DbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<MusicWorldDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 5;
-            }).AddEntityFrameworkStores<Data.DbContext>();
+                options.Password.RequiredUniqueChars = 0;
+            }).AddEntityFrameworkStores<Data.MusicWorldDbContext>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -72,7 +78,7 @@ namespace MusicWorld
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                using (var context = serviceScope.ServiceProvider.GetRequiredService<Data.DbContext>())
+                using (var context = serviceScope.ServiceProvider.GetRequiredService<Data.MusicWorldDbContext>())
                 {
                     context.Database.EnsureCreated();
 

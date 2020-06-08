@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MusicWorld.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MusicWorld.Data
 {
-    public class DbContext : IdentityDbContext<User, IdentityRole, string>
+    public class MusicWorldDbContext : IdentityDbContext<User, IdentityRole, string>
     {
-
-        public virtual DbSet<Catalogue> Catalogs { get; set; }
+        public virtual DbSet<Catalog> Catalogs { get; set; }
 
         public virtual DbSet<Artist> Artists { get; set; }
 
@@ -20,7 +18,7 @@ namespace MusicWorld.Data
 
         public virtual DbSet<Song> Songs { get; set; }
 
-        public DbContext(DbContextOptions<DbContext> options)
+        public MusicWorldDbContext(DbContextOptions<MusicWorldDbContext> options)
             : base(options)
         {
         }
@@ -31,6 +29,5 @@ namespace MusicWorld.Data
 
             base.OnConfiguring(optionsBuilder);
         }
-
     }
 }

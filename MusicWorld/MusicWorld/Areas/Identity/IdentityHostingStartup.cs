@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MusicWorld.Data;
-using MusicWorld.Data.Models;
 
 [assembly: HostingStartup(typeof(MusicWorld.Areas.Identity.IdentityHostingStartup))]
 namespace MusicWorld.Areas.Identity

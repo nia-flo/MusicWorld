@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWorld.Data;
 
-namespace MusicWorld.Data.Migrations
+namespace MusicWorld.Migrations
 {
-    [DbContext(typeof(DbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MusicWorldDbContext))]
+    [Migration("20200608192652_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,12 +99,10 @@ namespace MusicWorld.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -139,12 +139,10 @@ namespace MusicWorld.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -186,7 +184,7 @@ namespace MusicWorld.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Picture")
+                    b.Property<byte[]>("Photo")
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
@@ -194,7 +192,7 @@ namespace MusicWorld.Data.Migrations
                     b.ToTable("Artists");
                 });
 
-            modelBuilder.Entity("MusicWorld.Data.Models.Catalogue", b =>
+            modelBuilder.Entity("MusicWorld.Data.Models.Catalog", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -218,7 +216,7 @@ namespace MusicWorld.Data.Migrations
                     b.Property<string>("AlbumId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AtristId")
+                    b.Property<string>("ArtistId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Duration")
@@ -231,7 +229,7 @@ namespace MusicWorld.Data.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("AtristId");
+                    b.HasIndex("ArtistId");
 
                     b.ToTable("Songs");
                 });
@@ -374,9 +372,9 @@ namespace MusicWorld.Data.Migrations
                         .WithMany()
                         .HasForeignKey("AlbumId");
 
-                    b.HasOne("MusicWorld.Data.Models.Artist", "Atrist")
+                    b.HasOne("MusicWorld.Data.Models.Artist", "Artist")
                         .WithMany()
-                        .HasForeignKey("AtristId");
+                        .HasForeignKey("ArtistId");
                 });
 #pragma warning restore 612, 618
         }

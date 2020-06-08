@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MusicWorld.Data.Models
 {
-    public class User : IdentityUser<string>
+    public class User : IdentityUser <string>
     {
-
         public string Password { get; set; }
 
         public string FirstName { get; set; }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MusicWorld.Data.Models
 {
-    public class Catalogue
+    public class Catalog
     {
         public string Id { get; set; }
 

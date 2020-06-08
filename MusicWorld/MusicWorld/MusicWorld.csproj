@@ -2,13 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-MusicWorld-7DDC067C-BB7A-4358-B35F-8C02E64F0739</UserSecretsId>
+    <UserSecretsId>aspnet-MusicWorld-74616D66-5AAB-4EEF-86C4-155B79B2DC16</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Data\Migrations\20200607161904_Initial.cs" />
-    <Compile Remove="Data\Migrations\20200607161904_Initial.Designer.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />

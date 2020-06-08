@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MusicWorld.Data;
 using MusicWorld.Data.Models;
 
 namespace MusicWorld.Areas.Identity.Pages.Account
@@ -24,13 +24,13 @@ namespace MusicWorld.Areas.Identity.Pages.Account
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly DbContext _context;
+        private readonly MusicWorldDbContext _context;
 
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            DbContext context)
+            MusicWorldDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,16 +43,14 @@ namespace MusicWorld.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
         public class InputModel
         {
             [Required]
-            [Display(Name = "UserName")]
-            public string UserName { get; set; }
+            [Display(Name = "Username")]
+            public string Username { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -63,34 +61,38 @@ namespace MusicWorld.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [Display(Name = "UserName")]
+            [Display(Name = "First name")]
             public string FirstName { get; set; }
 
             [Required]
-            [Display(Name = "UserName")]
+            [Display(Name = "Last name")]
             public string LastName { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.UserName, FirstName = Input.FirstName, LastName = Input.LastName };
+                var user = new User 
+                { 
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = Input.Username, 
+                    Password = Input.Password, 
+                    FirstName = Input.FirstName, 
+                    LastName = Input.FirstName 
+                };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    //_logger.LogInformation("User created a new account with password.");
-                    
                     if (_context.Users.Count() == 1)
                     {
                         await _userManager.AddToRoleAsync(user, "Admin");
@@ -100,8 +102,10 @@ namespace MusicWorld.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, "User");
                     }
 
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
-                    //return LocalRedirect(returnUrl);
+                    _logger.LogInformation("User created a new account with password.");
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
                 {

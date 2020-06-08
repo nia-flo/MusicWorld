@@ -16,4 +16,3 @@ namespace MusicWorld.Data.Models
         public DateTime ReleaseDate { get; set; }
     }
 }
-
