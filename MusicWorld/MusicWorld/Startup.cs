@@ -37,7 +37,6 @@ namespace MusicWorld
             }).AddEntityFrameworkStores<Data.DbContext>();
 
             services.AddControllersWithViews();
-
             services.AddRazorPages();
         }
 
