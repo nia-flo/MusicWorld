@@ -2,7 +2,59 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<ul class="nav h4 justify-content-center mb-3">
+    <li class="nav-item">
+        <a href="/Home/Index" class="nav-link disabled"><span>Home</span></a>
+    </li>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <a>|</a>
+        <li class="nav-item">
+            <a href="/Identity/Account/Login" class="nav-link"><span>Login</span></a>
+        </li>
+        <a>|</a>
+        <li class="nav-item">
+            <a href="/Identity/Account/Register" class="nav-link"><span>Register</span></a>
+        </li>
+    }
+</ul>
+
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam elit purus, congue in hendrerit non, consequat in lorem.
+    Nunc luctus nisl non erat rutrum malesuada. Nullam accumsan ante vel aliquet hendrerit. Integer at fringilla urna, nec sollicitudin
+    ligula. Sed at est ac sem blandit ullamcorper ut ac orci. Mauris euismod ac nisl et consequat. Aenean nec justo viverra, lobortis
+    enim a, mattis nisi. Curabitur et eleifend mi.
+</p>
+
+<p>
+    Aliquam elementum libero tortor, in dictum risus malesuada vitae. Praesent laoreet malesuada congue. Donec sit amet lacus sed dui
+    egestas ultricies eget ut turpis. Pellentesque condimentum felis eu augue tincidunt eleifend. In hac habitasse platea dictumst.
+    Vestibulum non ex purus. Etiam purus mauris, pellentesque at mollis a, tempus et neque. Pellentesque blandit placerat sem, eget
+    convallis turpis dictum at. Morbi ac lorem feugiat erat dictum suscipit eu in nisi. Fusce posuere rhoncus gravida.
+</p>
+
+<p>
+    Maecenas hendrerit viverra mi, quis convallis nisi elementum a. Mauris vel feugiat nibh. Vivamus mollis magna id placerat elementum.
+    Morbi id gravida elit, vitae porttitor enim. Suspendisse potenti. Duis turpis purus, feugiat ac turpis id, dapibus pulvinar ex. Donec
+    aliquam elit non ex venenatis, at accumsan ligula dapibus. Cras dictum iaculis sapien sed placerat. In hac habitasse platea dictumst.
+    Nunc sed felis ut metus iaculis eleifend. Aliquam sit amet sapien ut enim vestibulum accumsan. Duis in massa nulla. Fusce elementum
+    nisi vel venenatis sagittis. Mauris quis consequat neque.
+</p>
+
+<p>
+    Etiam elit risus, sagittis non vehicula at, lobortis dignissim neque. Nullam neque erat, condimentum a tincidunt ac, commodo quis mi.
+    Fusce semper faucibus lectus, tincidunt tristique nunc accumsan et. Curabitur viverra porta eros a convallis. Suspendisse imperdiet
+    erat et odio ullamcorper, id porttitor ligula maximus. Suspendisse tristique urna nibh, id congue sapien convallis nec. Ut iaculis
+    nibh odio, vel aliquet risus tincidunt vitae. Morbi et quam a enim mollis consequat. Suspendisse at nunc lacus. Sed malesuada nunc
+    eu sapien aliquet, in volutpat lacus sodales. Aenean interdum viverra justo, in scelerisque lectus luctus nec. Pellentesque libero
+    dolor, maximus ac ex sed, aliquet pulvinar sapien. Nam fringilla ut purus ut imperdiet.
+</p>
+
+<p>
+    Phasellus non pharetra sapien, a dignissim turpis. Suspendisse vulputate leo placerat nibh placerat, ut lobortis mauris consectetur.
+    Ut vel purus pulvinar, tristique neque nec, aliquet tortor. In hac habitasse platea dictumst. Vestibulum sapien ante, malesuada ut
+    maximus quis, posuere at justo. Vivamus dictum aliquam purus, non molestie mi semper eu. Etiam sodales facilisis dignissim. Fusce in
+    lacinia turpis, eget scelerisque lorem. Aenean malesuada, neque vel efficitur porttitor, risus arcu commodo est, ut vulputate quam
+    ante et tellus. Sed efficitur tincidunt risus quis ultricies. Morbi in ipsum a tellus tempus fermentum at et erat.
+</p>

@@ -4,8 +4,22 @@
     ViewData["Title"] = "Register";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
-<hr />
+    <ul class="nav h4 justify-content-center mb-3">
+        <li class="nav-item">
+            <a href="/Home/Index" class="nav-link"><span>Home</span></a>
+        </li>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a>|</a>
+            <li class="nav-item">
+                <a href="/Identity/Account/Login" class="nav-link"><span>Login</span></a>
+            </li>
+        }
+        <a>|</a>
+        <li class="nav-item">
+            <a href="/Identity/Account/Register" class="nav-link disabled"><span>Register</span></a>
+        </li>
+    </ul>
 
 <div class="row">
     <div class="col-md-8 mx-auto">

@@ -5,8 +5,19 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
-<hr />
+<ul class="nav h4 justify-content-center mb-3">
+    <li class="nav-item">
+        <a href="/Home/Index" class="nav-link"><span>Home</span></a>
+    </li>
+    <a>|</a>
+    <li class="nav-item">
+        <a href="/Identity/Account/Login" class="nav-link disabled"><span>Login</span></a>
+    </li>
+    <a>|</a>
+    <li class="nav-item">
+        <a href="/Identity/Account/Register" class="nav-link"><span>Register</span></a>
+    </li>
+</ul>
 
 <div class="row">
     <div class="col-md-4 mx-auto">
@@ -27,7 +38,7 @@
                     <button type="submit" class="btn btn-outline-dark mx-auto">Log in</button>
                 </div>
             </form>
-            </section>
+        </section>
     </div>
 </div>
 
