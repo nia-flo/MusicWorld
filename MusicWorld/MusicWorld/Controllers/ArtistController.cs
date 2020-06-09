@@ -34,12 +34,12 @@ namespace MusicWorld.Controllers
         public IActionResult Create(ArtistCreateViewModel model)
         {
             byte[] photo = null;
-            using (var fs1 = model.Photo.OpenReadStream())
-            using (var ms1 = new MemoryStream())
-            {
-                fs1.CopyTo(ms1);
-                photo = ms1.ToArray();
-            }
+            //using (var fs1 = model.Photo.OpenReadStream())
+            //using (var ms1 = new MemoryStream())
+            //{
+            //    fs1.CopyTo(ms1);
+            //    photo = ms1.ToArray();
+            //}
 
             Artist artist = new Artist
             {
