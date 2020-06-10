@@ -8,7 +8,8 @@ namespace MusicWorld.Models.Album
 {
     public class AlbumViewModel
     {
-        public AlbumViewModel()
+
+        public AlbumViewModel(string id)
         { }
 
         public AlbumViewModel(string id, string name, ArtistViewModel artist, DateTime releaseDate)

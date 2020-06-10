@@ -1,0 +1,94 @@
+﻿@model MusicWorld.Models.Song.SongCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input type="time" asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllArtists" class="control-label">Artist</label>
+                <select id="artist" class="custom-select mb-3" asp-for="ChoosenArtistId">
+                    <option value="" disabled selected>--- Choose artist ---</option>
+                    @foreach (var artist in Model.AllArtists)
+                    {
+                        <option value="@artist.Id">@artist.Name</option>
+                    }
+                </select>
+            </div>
+            <div id="album" class="form-group"></div>
+            <div class="form-group">
+                <input id="submit" type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Songs">Back to List</a>
+</div>
+
+<script>
+    $("#artist").change(function () {
+        var albumIds = [];
+        var albumNames = [];
+        var n = 0;
+
+        @foreach (var album in Model.AllAlbums)
+        {
+            @Html.Raw("albumIds.push(\"" + @album.Artist.Id + "\"); \r\n" );
+            @Html.Raw("albumNames.push(\"" + @album.Name + "\"); \r\n");
+            @Html.Raw("n++; \r\n");
+        }
+
+        var res = "";
+
+        let start = '<label asp-for="AllAlbums" class="control-label">Album</label>'
+            + '<select class="custom-select mb-3" asp-for="ChoosenAlbumId">'
+            + '<option value="" disabled selected >--- Choose album ---</option>';
+
+        res += start;
+
+        for (var i = 0; i < n; i++) {
+            if (albumIds[i] == $(this).val()) {
+                res += '<option value="' + albumIds[i] + '">' + albumNames[i] + '</option>';
+            }
+        }
+
+        res += '</select>';
+
+        //console.log(res);
+
+        document.getElementById('album').innerHTML = res;
+    });
+
+    $("#album").change(function () {
+        console.log($("#album option:selected").text());
+
+        $("#album").val($("#album option:selected").text());
+
+        console.log($("#album").val());
+    });
+
+    $("#submit").mousedown(function () {
+        console.log("submit - " + $("#album").val());
+    });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

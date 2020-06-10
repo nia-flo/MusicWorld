@@ -20,7 +20,6 @@ namespace MusicWorld.Controllers
         public IActionResult Users()
         {
             List<UserViewModel> users = _context.Users.Select(u => new UserViewModel(u.UserName, u.FirstName, u.LastName, u.Id)).ToList();
-
             return View(users);
         }
 
