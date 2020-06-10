@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc;
 using MusicWorld.Data;
 using MusicWorld.Data.Models;
@@ -17,6 +18,7 @@ namespace MusicWorld.Controllers
         {
             _context = context;
         }
+
         public IActionResult Albums()
         {
             List<AlbumViewModel> albums = _context.Albums.Select(a => new AlbumViewModel(a.Id, a.Name,
@@ -24,6 +26,49 @@ namespace MusicWorld.Controllers
                 .ToList();
 
             return View(albums);
+        }
+
+        [HttpGet]
+        public IActionResult Search()
+        {
+            List<AlbumViewModel> albums = _context.Albums.Select(a => new AlbumViewModel(a.Id, a.Name,
+                new ArtistViewModel(a.Artist.Id, a.Artist.Name, a.Artist.Photo, a.Artist.Description), a.ReleaseDate))
+                .ToList();
+
+            return View(new AlbumSearchViewModel(albums));
+        }
+
+        [HttpPost]
+        public IActionResult Search(AlbumSearchViewModel model)
+        {
+            if (model.NameToSearch.IsNullOrEmpty())
+            {
+                model.Albums = _context.Albums.Select(a => new AlbumViewModel(a.Id, a.Name,
+                new ArtistViewModel(a.Artist.Id, a.Artist.Name, a.Artist.Photo, a.Artist.Description), a.ReleaseDate))
+                .ToList();
+            }
+            else
+            {
+                model.Albums = _context.Albums.Where(a => a.Name.Contains(model.NameToSearch))
+                                .Select(a => new AlbumViewModel(a.Id, a.Name,
+                                new ArtistViewModel(a.Artist.Id, a.Artist.Name, a.Artist.Photo, a.Artist.Description), a.ReleaseDate)).ToList();
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult AlbumsFromArtist(string id)
+        {
+            Artist artist = _context.Artists.FirstOrDefault(a => a.Id == id);
+
+            ArtistViewModel artistViewModel = new ArtistViewModel(artist.Id, artist.Name, artist.Photo, artist.Description);
+
+            List<AlbumViewModel> albums = _context.Albums.Where(a => a.Artist.Id == id).Select(a => new AlbumViewModel(a.Id, a.Name,
+                new ArtistViewModel(a.Artist.Id, a.Artist.Name, a.Artist.Photo, a.Artist.Description), a.ReleaseDate))
+                .ToList();
+
+            return View(new AlbumAlbumsFromArtistViewModel(artistViewModel, albums));
         }
 
         [HttpGet]

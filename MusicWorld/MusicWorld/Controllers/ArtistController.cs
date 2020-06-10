@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Castle.Core.Internal;
+using Microsoft.AspNetCore.Mvc;
 using MusicWorld.Data;
 using MusicWorld.Data.Models;
 using MusicWorld.Models.Artist;
@@ -22,6 +23,31 @@ namespace MusicWorld.Controllers
             List<ArtistViewModel> artists = _context.Artists.Select(a => new ArtistViewModel(a.Id, a.Name, a.Photo, a.Description)).ToList();
 
             return View(artists);
+        }
+
+        [HttpGet]
+        public IActionResult Search()
+        {
+            List<ArtistViewModel> artists = _context.Artists.Select(a => new ArtistViewModel(a.Id, a.Name, a.Photo, a.Description))
+                .ToList();
+
+            return View(new ArtistSearchViewModel(artists));
+        }
+
+        [HttpPost]
+        public IActionResult Search(ArtistSearchViewModel model)
+        {
+            if (model.NameToSearch.IsNullOrEmpty())
+            {
+                model.Artists = _context.Artists.Select(a => new ArtistViewModel(a.Id, a.Name, a.Photo, a.Description)).ToList();
+            }
+            else
+            {
+                model.Artists = _context.Artists.Where(a => a.Name.Contains(model.NameToSearch))
+                                .Select(a => new ArtistViewModel(a.Id, a.Name, a.Photo, a.Description)).ToList();
+            }
+
+            return View(model);
         }
 
         [HttpGet]
@@ -68,10 +94,10 @@ namespace MusicWorld.Controllers
         [HttpPost]
         public IActionResult Edit(ArtistEditViewModel model)
         {
-            if (_context.Artists.FirstOrDefault(a => a.Name == model.Name && a.Id != model.Id) != null)
-            {
-                ModelState.AddModelError("Name", "There is an user with this name.");
-            }
+            //if (_context.Artists.FirstOrDefault(a => a.Name == model.Name && a.Id != model.Id) != null)
+            //{
+            //    ModelState.AddModelError("Name", "There is an user with this name.");
+            //}
 
             if (ModelState.IsValid)
             {

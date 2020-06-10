@@ -18,6 +18,7 @@ namespace MusicWorld.Controllers
         {
             _context = context;
         }
+
         public IActionResult Songs()
         {
             List<SongViewModel> songs = _context.Songs.Select(s => new SongViewModel(s.Id, s.Name, s.Duration,
@@ -27,6 +28,21 @@ namespace MusicWorld.Controllers
                 .ToList();
 
             return View(songs);
+        }
+
+        [HttpGet]
+        public IActionResult SongsFromAlbum(string id)
+        {
+            Album album = _context.Albums.FirstOrDefault(a => a.Id == id);
+
+            ArtistViewModel artist = new ArtistViewModel(album.Artist.Id, album.Artist.Name, album.Artist.Photo, album.Artist.Description);
+
+            AlbumViewModel albumViewModel = new AlbumViewModel(album.Id, album.Name, artist, album.ReleaseDate);
+
+            List<SongViewModel> songs = _context.Songs.Where(s => s.Album.Id == id).Select(s => new SongViewModel(s.Id, s.Name,
+                s.Duration, albumViewModel, artist)).ToList();
+
+            return View(new SongSongsFromAlbumViewModel(albumViewModel, songs));
         }
 
         [HttpGet]

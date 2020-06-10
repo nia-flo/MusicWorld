@@ -1,0 +1,62 @@
+﻿@model MusicWorld.Models.Album.AlbumAlbumsFromArtistViewModel
+
+@{
+    ViewData["Title"] = "Albums";
+}
+
+<h1 class="text-center mb-3">Artist</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Artist.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Artist.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Artist.Photo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Artist.Photo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Artist.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Artist.Description)
+        </dd>
+    </dl>
+</div>
+
+<h3 class="text-center mb-3">Albums</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a>Name</a>
+            </th>
+            <th>
+                <a>Release date</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Albums)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-controller="Song" asp-action="SongsFromAlbum" asp-route-id="@item.Id">View songs</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,68 @@
+﻿@model MusicWorld.Models.Song.SongSongsFromAlbumViewModel
+
+@{
+    ViewData["Title"] = "Albums";
+}
+
+<h1 class="text-center mb-3">Album</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Album.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Album.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Album.Artist.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Album.Artist.Name)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Artist photo</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Album.Artist.Photo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Album.ReleaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Album.ReleaseDate)
+        </dd>
+    </dl>
+</div>
+
+<h3 class="text-center mb-3">Albums</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a>Name</a>
+            </th>
+            <th>
+                <a>Duration</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Songs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-controller="Catalog" asp-action="AddSong" asp-route-id="@item.Id">Add to playlist</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
