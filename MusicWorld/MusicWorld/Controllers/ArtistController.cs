@@ -1,4 +1,5 @@
 ﻿using Castle.Core.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicWorld.Data;
 using MusicWorld.Data.Models;
@@ -60,12 +61,12 @@ namespace MusicWorld.Controllers
         public IActionResult Create(ArtistCreateViewModel model)
         {
             byte[] photo = null;
-            //using (var fs1 = model.Photo.OpenReadStream())
-            //using (var ms1 = new MemoryStream())
-            //{
-            //    fs1.CopyTo(ms1);
-            //    photo = ms1.ToArray();
-            //}
+            using (var fs1 = model.Photo.OpenReadStream())
+            using (var ms1 = new MemoryStream())
+            {
+                fs1.CopyTo(ms1);
+                photo = ms1.ToArray();
+            }
 
             Artist artist = new Artist
             {
@@ -86,7 +87,7 @@ namespace MusicWorld.Controllers
         {
             Artist artist = _context.Artists.FirstOrDefault(a => a.Id == id);
 
-            ArtistEditViewModel model = new ArtistEditViewModel(artist.Id, artist.Name, artist.Photo, artist.Description);
+            ArtistEditViewModel model = new ArtistEditViewModel(artist.Id, artist.Name, null, artist.Description);
 
             return View(model);
         }
@@ -94,26 +95,28 @@ namespace MusicWorld.Controllers
         [HttpPost]
         public IActionResult Edit(ArtistEditViewModel model)
         {
-            //if (_context.Artists.FirstOrDefault(a => a.Name == model.Name && a.Id != model.Id) != null)
-            //{
-            //    ModelState.AddModelError("Name", "There is an user with this name.");
-            //}
+            Artist artist = _context.Artists.FirstOrDefault(a => a.Id == model.Id);
 
-            if (ModelState.IsValid)
+            if (model.Photo != null)
             {
-                Artist artist = _context.Artists.FirstOrDefault(a => a.Id == model.Id);
+                byte[] photo = null;
+                using (var fs1 = model.Photo.OpenReadStream())
+                using (var ms1 = new MemoryStream())
+                {
+                    fs1.CopyTo(ms1);
+                    photo = ms1.ToArray();
+                }
 
-                artist.Name = model.Name;
-                artist.Photo = model.Photo;
-                artist.Description = model.Description;
-
-                _context.Update(artist);
-                _context.SaveChanges();
-
-                return Redirect("~/Artist/Artists");
+                artist.Photo = photo;
             }
 
-            return View(model);
+            artist.Name = model.Name;
+            artist.Description = model.Description;
+
+            _context.Update(artist);
+            _context.SaveChanges();
+
+            return Redirect("~/Artist/Artists");
         }
 
         [HttpGet]

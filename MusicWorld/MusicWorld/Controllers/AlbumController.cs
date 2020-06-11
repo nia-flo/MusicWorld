@@ -74,7 +74,8 @@ namespace MusicWorld.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            List<ArtistViewModel> artists = _context.Artists.Select(a => new ArtistViewModel(a.Id, a.Name, a.Photo, a.Description)).ToList();
+            List<ArtistViewModel> artists = _context.Artists.Select(a => new ArtistViewModel(a.Id, a.Name, a.Photo, a.Description))
+                .ToList();
 
             return View(new AlbumCreateViewModel(artists));
         }
@@ -82,20 +83,32 @@ namespace MusicWorld.Controllers
         [HttpPost]
         public IActionResult Create(AlbumCreateViewModel model)
         {
-            Artist artist = _context.Artists.FirstOrDefault(a => a.Id == model.ChoosenArtistId);
-
-            Album album = new Album
+            if (model.ChoosenArtistId.IsNullOrEmpty())
             {
-                Id = Guid.NewGuid().ToString(),
-                Name = model.Name,
-                Artist = artist,
-                ReleaseDate = model.ReleaseDate
-            };
+                ModelState.AddModelError("ChoosenArtistId", "You must choose an artist.");
+            }
 
-            _context.Albums.Add(album);
-            _context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                Artist artist = _context.Artists.FirstOrDefault(a => a.Id == model.ChoosenArtistId);
 
-            return Redirect("~/Album/Albums");
+                Album album = new Album
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = model.Name,
+                    Artist = artist,
+                    ReleaseDate = model.ReleaseDate
+                };
+
+                _context.Albums.Add(album);
+                _context.SaveChanges();
+
+                return Redirect("~/Album/Albums");
+            }
+
+            model.AllArtists = _context.Artists.Select(a => new ArtistViewModel(a.Id, a.Name, a.Photo, a.Description)).ToList();
+
+            return View(model);
         }
 
         public IActionResult Details(string id)

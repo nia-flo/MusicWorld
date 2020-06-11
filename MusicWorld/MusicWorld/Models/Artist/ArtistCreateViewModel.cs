@@ -10,10 +10,13 @@ namespace MusicWorld.Models.Artist
     public class ArtistCreateViewModel
     {
         public ArtistCreateViewModel()
-        { }
+        {
+        }
 
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         [DataType(DataType.Upload)]
         public IFormFile Photo { get; set; }
 
