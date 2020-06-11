@@ -18,6 +18,8 @@ namespace MusicWorld.Data
 
         public virtual DbSet<Song> Songs { get; set; }
 
+        public virtual DbSet<SongCatalog> SongCatalogs { get; set; }
+
         public MusicWorldDbContext(DbContextOptions<MusicWorldDbContext> options)
             : base(options)
         {

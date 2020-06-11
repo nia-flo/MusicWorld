@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWorld.Data;
 
 namespace MusicWorld.Migrations
 {
     [DbContext(typeof(MusicWorldDbContext))]
-    partial class MusicWorldDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200611071858_Added_SongCatalog")]
+    partial class Added_SongCatalog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

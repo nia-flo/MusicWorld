@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc;
 using MusicWorld.Data;
 using MusicWorld.Data.Models;
@@ -31,6 +32,40 @@ namespace MusicWorld.Controllers
         }
 
         [HttpGet]
+        public IActionResult Search()
+        {
+            List<SongViewModel> songs = _context.Songs.Select(s => new SongViewModel(s.Id, s.Name, s.Duration,
+                new AlbumViewModel(s.Album.Id, s.Album.Name,
+                    new ArtistViewModel(s.Artist.Id, s.Artist.Name, s.Artist.Photo, s.Artist.Description), s.Album.ReleaseDate),
+                new ArtistViewModel(s.Artist.Id, s.Artist.Name, s.Artist.Photo, s.Artist.Description)))
+                .ToList();
+
+            return View(new SongSearchViewModel(songs));
+        }
+
+        [HttpPost]
+        public IActionResult Search(SongSearchViewModel model)
+        {
+            if (model.NameToSearch.IsNullOrEmpty())
+            {
+                model.Songs = _context.Songs.Select(s => new SongViewModel(s.Id, s.Name, s.Duration,
+                new AlbumViewModel(s.Album.Id, s.Album.Name,
+                    new ArtistViewModel(s.Artist.Id, s.Artist.Name, s.Artist.Photo, s.Artist.Description), s.Album.ReleaseDate),
+                new ArtistViewModel(s.Artist.Id, s.Artist.Name, s.Artist.Photo, s.Artist.Description)))
+                .ToList();
+            }
+            else
+            {
+                model.Songs = _context.Songs.Where(s => s.Name.Contains(model.NameToSearch))
+                    .Select(s => new SongViewModel(s.Id, s.Name, s.Duration, new AlbumViewModel(s.Album.Id, s.Album.Name,
+                        new ArtistViewModel(s.Artist.Id, s.Artist.Name, s.Artist.Photo, s.Artist.Description), s.Album.ReleaseDate),
+                            new ArtistViewModel(s.Artist.Id, s.Artist.Name, s.Artist.Photo, s.Artist.Description)))
+                    .ToList();
+            }
+
+            return View(model);
+        }
+
         public IActionResult SongsFromAlbum(string id)
         {
             Album album = _context.Albums.FirstOrDefault(a => a.Id == id);

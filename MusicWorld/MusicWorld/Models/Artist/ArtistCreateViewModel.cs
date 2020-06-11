@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MusicWorld.Models.Artist
 {
-    public class ArtistCreateViewModel : ArtistViewModel
+    public class ArtistCreateViewModel
     {
         public ArtistCreateViewModel()
         { }

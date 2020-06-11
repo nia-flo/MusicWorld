@@ -1,0 +1,74 @@
+﻿@model MusicWorld.Models.Catalog.CatalogDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Playlist</h1>
+
+<div>
+    <h4>CatalogDetailsViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+
+<h3 class="text-center">Songs</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a>Name</a>
+            </th>
+            <th>
+                <a>Duration</a>
+            </th>
+            <th>
+                <a>Artist</a>
+            </th>
+            <th>
+                <a>Album</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Songs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Album.Name)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-controller="Song" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Catalogs">Back to List</a>
+</div>

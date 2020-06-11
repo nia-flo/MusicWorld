@@ -1,15 +1,15 @@
-﻿@model MusicWorld.Models.Album.AlbumSearchViewModel
+﻿@model MusicWorld.Models.Song.SongSearchViewModel
 
 @{
-    ViewData["Title"] = "Albums";
+    ViewData["Title"] = "Songs";
 }
 
-<h1 class="text-center">Albums</h1>
+<h1 class="text-center">Songs</h1>
 
 <div class="col-md-5 mx-auto">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <form asp-action="Search" asp-controller="Artist" method="post">
+            <form asp-action="Search" asp-controller="Song" method="post">
                 <div class="form-group">
                     @*<label asp-for="NameToSearch" class="control-label"></label>*@
                     <input asp-for="NameToSearch" class="form-control" />
@@ -35,23 +35,35 @@
                 <a>Name</a>
             </th>
             <th>
-                <a>Release date</a>
+                <a>Duration</a>
+            </th>
+            <th>
+                <a>Artist</a>
+            </th>
+            <th>
+                <a>Album</a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Albums)
+        @foreach (var item in Model.Songs)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    @Html.DisplayFor(modelItem => item.Duration)
                 </td>
                 <td>
-                    <a class="btn btn-outline-primary" asp-controller="Song" asp-action="SongsFromAlbum" asp-route-id="@item.Id">View Songs</a>
+                    @Html.DisplayFor(modelItem => item.Artist.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Album.Name)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-controller="Catalog" asp-action="AddSong" asp-route-id="@item.Id">Add to playlist</a>
                 </td>
             </tr>
         }
